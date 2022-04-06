@@ -7,7 +7,8 @@ const {
     deleteUserMatch 
 } = require('../controllers/usermatchController')
 
+const { protect } = require('../middleware/authMiddleware')
 module.exports = router
 
-router.route('/').get(getUserMatch).post(setUserMatch)
-router.route('/:id').put(updateUserMatch).delete(deleteUserMatch)
+router.route('/').get(protect, getUserMatch).post(protect, setUserMatch)
+router.route('/:id').put(protect, updateUserMatch).delete(protect, deleteUserMatch)

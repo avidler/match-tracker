@@ -1,13 +1,17 @@
 const asyncHandler = require('express-async-handler')
 
+const UserMatch = require('../models/userMatch')
+const User = require('../models/userModel')
+
 // @desc Get user match
 // @route GET /api/userMatch
 // access Private
 
 const getUserMatch = asyncHandler(async(req, res) => {
-    {
-        res.status(200).json({message: 'Get user matches'})
-    }
+    
+    const userMatches = await UserMatch.find({ user: req.user.id })
+    res.status(200).json(userMatches)
+    
 })
 
 // @desc Set user match
@@ -20,7 +24,13 @@ const setUserMatch = asyncHandler(async(req, res) => {
         res.status(400)
         throw new Error('Please add a text field')
     }
-    res.status(200).json({message: 'Create user match'})
+
+    const userMatch = await UserMatch.create({
+        text: req.body.text,
+        user: req.user.id,
+    })
+
+    res.status(200).json(userMatch)
 })
 
 // @desc Amend user match
@@ -28,9 +38,33 @@ const setUserMatch = asyncHandler(async(req, res) => {
 // access Private
 
 const updateUserMatch = asyncHandler(async(req, res) => {
-    {
-        res.status(200).json({message: `Amend user match ${req.params.id}`})
+
+    const userMatch = await UserMatch.findById(req.params.id)
+
+    if(!userMatch){
+        res.status(400)
+        throw new error('User match not found')
     }
+
+    const user = await User.findById(req.user.id)
+
+    if (!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    // Make sure logged in user is the same as the usermatch record
+    if(userMatch.user.toString() !== user.id) {
+        res.status(401)
+        throw new Error('User not authorised')       
+    }
+
+    const updatedUserMatch = await UserMatch.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    })
+
+    res.status(200).json(updatedUserMatch)
+    
 })
 
 // @desc Remove user match
@@ -38,9 +72,29 @@ const updateUserMatch = asyncHandler(async(req, res) => {
 // access Private
 
 const deleteUserMatch = asyncHandler(async(req, res) => {
-    {
-        res.status(200).json({message: `Delete user match ${req.params.id}`})
+    const userMatch = await UserMatch.findById(req.params.id)
+
+    if(!userMatch){
+        res.status(400)
+        throw new error("User match not found")
     }
+
+    const user = await User.findById(req.user.id)
+
+    if (!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    // Make sure logged in user is the same as the usermatch record
+    if(userMatch.user.toString() !== user.id) {
+        res.status(401)
+        throw new Error('User not authorised')       
+    }
+
+    await userMatch.remove()
+    res.status(200).json({id: req.params.id})
+    
 })
 
 
