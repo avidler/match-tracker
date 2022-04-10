@@ -84,16 +84,7 @@ const authenticateUser = asyncHandler(async(req, res) => {
 // access Private
 
 const getUser = asyncHandler(async(req, res) => {
-    // req.user.id is whatever user has authenticated
-    // This is because the route in userRoutes has protect as a parameter
-    // Protect uses authMiddleware, which verifies the session token
-    const {_id, name, email} = await User.findById(req.user.id)
-
-    res.status(200).json({
-        id: _id,
-        name,
-        email,
-    })
+    res.status(200).json(req.user)
    
 })
 

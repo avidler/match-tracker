@@ -46,15 +46,13 @@ const updateUserMatch = asyncHandler(async(req, res) => {
         throw new error('User match not found')
     }
 
-    const user = await User.findById(req.user.id)
-
-    if (!user){
+    if (!req.user){
         res.status(401)
         throw new Error('User not found')
     }
 
     // Make sure logged in user is the same as the usermatch record
-    if(userMatch.user.toString() !== user.id) {
+    if(userMatch.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorised')       
     }
@@ -79,15 +77,15 @@ const deleteUserMatch = asyncHandler(async(req, res) => {
         throw new error("User match not found")
     }
 
-    const user = await User.findById(req.user.id)
+   
 
-    if (!user){
+    if (!req.user){
         res.status(401)
         throw new Error('User not found')
     }
 
     // Make sure logged in user is the same as the usermatch record
-    if(userMatch.user.toString() !== user.id) {
+    if(userMatch.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorised')       
     }

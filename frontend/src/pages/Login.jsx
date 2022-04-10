@@ -50,15 +50,15 @@ function Login() {
 
     const onSubmit = (e) => {
         e.preventDefault()
-    }
+    
 
     const userData = {
-        login,
+        email,
         password
     }
 
     dispatch(login(userData))
-
+    }
     if(isLoading){
         return <Spinner />
     }
@@ -71,7 +71,7 @@ function Login() {
         <p>Start Tracking Matches</p>
     </section>
     <section className="form">
-        <form>
+        <form onSubmit={onSubmit}>
             <div className="form-group">
                 <input
                     type='email'
@@ -95,7 +95,7 @@ function Login() {
                 />
             </div>
             <div className="form-group">
-            <button type='submit' className='btn btn-block' onSubmit={onSubmit}>Submit</button>
+            <button type='submit' className='btn btn-block'>Submit</button>
 
             </div>
            
