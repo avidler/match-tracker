@@ -1,29 +1,28 @@
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux'
-import createUserMatch from '../features/userMatches/userMatchSlice'
+import { createUserMatch } from '../features/userMatches/userMatchSlice'
 
 function UserMatchForm() {
-  const [match, setMatch] = useState('')
+  const [text, setText] = useState('')
   const dispatch = useDispatch()
 
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
-
-    dispatch(createUserMatch({match}))
-    setMatch('')
+    dispatch(createUserMatch({text}))
+    setText('')
   }
   return (
     <section className="form">
       <form onSubmit={onSubmit}>
         <div className='form-group'>
-          <label htmlFor='Match'>Match</label>
+          <label htmlFor='text'>Match</label>
           <input 
             type='text' 
-            name='match' 
-            id='match' 
-            value={match}
-            onChange={(e)=>setMatch(e.target.value)}/>
+            name='text' 
+            id='text' 
+            value={text}
+            onChange={(e)=>setText(e.target.value)}/>
         </div>
         <div className="form-group">
           <button className="btn btn-block" type="submit">I was at this match</button>

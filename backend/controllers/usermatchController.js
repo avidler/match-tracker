@@ -1,13 +1,13 @@
 const asyncHandler = require('express-async-handler')
 
-const UserMatch = require('../models/userMatch')
+const UserMatch = require('../models/userMatchModel')
 const User = require('../models/userModel')
 
-// @desc Get user match
-// @route GET /api/userMatch
+// @desc Get user matches
+// @route GET /api/userMatches
 // access Private
 
-const getUserMatch = asyncHandler(async(req, res) => {
+const getUserMatches = asyncHandler(async(req, res) => {
     
     const userMatches = await UserMatch.find({ user: req.user.id })
     res.status(200).json(userMatches)
@@ -19,13 +19,12 @@ const getUserMatch = asyncHandler(async(req, res) => {
 // access Private
 
 const setUserMatch = asyncHandler(async(req, res) => {
-    console.log(req.body)
     if(!req.body.text){
         res.status(400)
         throw new Error('Please add a text field')
     }
-
     const userMatch = await UserMatch.create({
+       
         text: req.body.text,
         user: req.user.id,
     })
@@ -98,5 +97,8 @@ const deleteUserMatch = asyncHandler(async(req, res) => {
 
 
 module.exports = {
-    getUserMatch, setUserMatch, updateUserMatch, deleteUserMatch
+    getUserMatches, 
+    setUserMatch, 
+    updateUserMatch, 
+    deleteUserMatch
 }
