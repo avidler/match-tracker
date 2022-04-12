@@ -14,6 +14,12 @@ const userSchema = mongoose.Schema ({
         type: String,
         required: [true, 'Please add a password']
     },
+    favouriteTeam: {
+        type: String
+    },
+    favouriteTeamID: {
+        type: String
+    }
 },
 {
     timestamps: true

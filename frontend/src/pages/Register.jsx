@@ -8,15 +8,49 @@ import {FaUser} from 'react-icons/fa'
 import {register, reset} from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
 
+const axios = require("axios");
+
+const options = {
+method: 'GET',
+url: 'https://api-football-v1.p.rapidapi.com/v3/teams',
+params: {   league: '41',
+            season: '2021'},
+headers: {
+    'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com',
+    'X-RapidAPI-Key': '6c26722765msh90b4b0c04761e11p1765c4jsn88f7ec578f91'
+}
+};
+axios.request(options).then(function (response) {
+    let teamList = []
+    response.data.response.forEach(function(team){
+
+        teamList.push(team.team.name);
+     });
+     console.log("teamList: ",teamList)
+     var teamListChoice = document.getElementById('teamschoice');
+
+        teamList.forEach(function(teamName){
+        var option = document.createElement('option');
+        option.value = teamName;
+        teamListChoice.appendChild(option);
+});
+}).catch(function (error) {
+    console.error(error);
+});
+
 function Register() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
         password2: '',
+        favouriteTeam: '',
+        favouriteTeamID: '',
     })
 
-    const {name, email, password, password2} = formData
+    const {name, email, password, password2, favouriteTeam, favouriteTeamID} = formData
+
+
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -120,6 +154,18 @@ function Register() {
                     placeholder='Please confirm password'
                     onChange={onChange}
                 />
+            </div>
+            <div className="form-group">
+                <input
+                    list='teamschoice'
+                    className='form-control'
+                    id='favourite-team'
+                    name='favouriteTeam'
+                    value={favouriteTeam}
+                    placeholder='Please choose your favourite team'
+                    onChange={onChange}
+                />
+                <datalist id="teamschoice"></datalist>
             </div>
             <div className="form-group">
             <button type='submit' className='btn btn-block'>Submit</button>
