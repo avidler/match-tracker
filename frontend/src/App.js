@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import UserDetails from './pages/UserDetails';
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <div className='container'>
         <Header />
         <Routes>
-        <Route path='/' element={<Dashboard />} />
+        <Route exact path='/' element={<Dashboard />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/userdetails' element={<UserDetails />} />
         <Route path='/register' element={<Register />} />
         </Routes>
       </div>

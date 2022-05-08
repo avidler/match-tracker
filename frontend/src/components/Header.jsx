@@ -22,7 +22,8 @@ function Header() {
             </div>
             <ul>
                 {user ? (
-                        <li>
+                    <li>
+                        <Link to='/userdetails'>Change Details</Link>
                         <button className='btn' onClick={onLogout}>
                             <FaSignOutAlt />Logout
                         </button>

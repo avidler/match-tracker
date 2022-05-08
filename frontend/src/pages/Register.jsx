@@ -91,7 +91,9 @@ function Register() {
             const userData = {
                 name,
                 email,
-                password
+                password,
+                favouriteTeam,
+                favouriteTeamID,
             }
 
             dispatch(register(userData))

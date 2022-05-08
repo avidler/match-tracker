@@ -41,6 +41,7 @@ function Dashboard() {
     <>
       <section className="heading">
         <h1>Welcome {user && user.name}</h1>
+        <h3>{user.favouriteTeam}</h3>
         <p>Match Tracker Dashboard</p>
       </section>
 

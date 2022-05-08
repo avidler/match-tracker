@@ -19,6 +19,9 @@ const userSchema = mongoose.Schema ({
     },
     favouriteTeamID: {
         type: String
+    },
+    favouruteTeamLogo: {
+        type: String
     }
 },
 {

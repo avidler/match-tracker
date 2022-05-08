@@ -38,31 +38,15 @@ axios.request(options).then(function (response) {
     console.error(error);
 });
 
-const { user, isLoading, isError, isSuccess, message } = useSelector(
-    // This is the slice called 'auth' from authSlice.js
-    (state) => state.auth
-)
 
-useEffect(() => {
-    if(isError){
-        toast.error(message)
-    }
-
-    if(isSuccess || user) {
-        navigate('/')
-    }
-
-    dispatch(reset())
-
-},[user, isError, isSuccess, message, navigate, dispatch])
 
 function UserDetails() {
     const [formData, setFormData] = useState({
-        name: user.name,
-        email: user.email,
+        name: '',
+        email: '',
         password: '',
         password2: '',
-        favouriteTeam: user.favouriteTeam,
+        favouriteTeam: '',
         favouriteTeamID: '',
     })
 
@@ -76,7 +60,9 @@ function UserDetails() {
     const { user, isLoading, isError, isSuccess, message } = useSelector(
         // This is the slice called 'auth' from authSlice.js
         (state) => state.auth
+        
     )
+    console.log("user name",user.name)
 
     useEffect(() => {
         if(isError){
@@ -84,7 +70,7 @@ function UserDetails() {
         }
 
         if(isSuccess || user) {
-            navigate('/')
+            navigate('/userdetails')
         }
 
         dispatch(reset())
@@ -109,7 +95,9 @@ function UserDetails() {
             const userData = {
                 name,
                 email,
-                password
+                password,
+                favouriteTeam,
+                favouriteTeamID,
             }
 
             dispatch(register(userData))
@@ -119,77 +107,30 @@ function UserDetails() {
     if(isLoading){
         return <Spinner />
     }
+
+
   return (
     <>
+   
     <section className="heading">
         <h1>
-            <FaUser />Update Details
+            <FaUser />Change details
         </h1>
-        <p></p>
+        <p>Please modify details below</p>
     </section>
     <section className="form">
         <form onSubmit={onSubmit}>
             <div className="form-group">
-                <input
+                Name: <input
                     type='text'
                     className='form-control'
                     id='name'
                     name='name'
                     value={name}
-                    placeholder={name}
+                    placeholder={user.name}
                     onChange={onChange}
                 />
-            </div>
-            <div className="form-group">
-                <input
-                    type='email'
-                    className='form-control'
-                    id='email'
-                    name='email'
-                    value={email}
-                    placeholder={email}
-                    onChange={onChange}
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type='password'
-                    className='form-control'
-                    id='password'
-                    name='password'
-                    value={password}
-                    placeholder='Please enter a password'
-                    onChange={onChange}
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type='password'
-                    className='form-control'
-                    id='password2'
-                    name='password2'
-                    value={password2}
-                    placeholder='Please confirm password'
-                    onChange={onChange}
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    list='teamschoice'
-                    className='form-control'
-                    id='favourite-team'
-                    name='favouriteTeam'
-                    value={favouriteTeam}
-                    placeholder={favouriteTeam}
-                    onChange={onChange}
-                />
-                <datalist id="teamschoice"></datalist>
-            </div>
-            <div className="form-group">
-            <button type='submit' className='btn btn-block'>Submit</button>
-
-            </div>
-           
+            </div>           
         </form>
     </section>
     </>
